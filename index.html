@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riya ❤️ My Forever</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+text-align:center;
+overflow-x:hidden;
+scroll-behavior:smooth;
+}
+
+/* Floating Hearts */
+.heart{
+position:fixed;
+bottom:-10px;
+color:pink;
+font-size:20px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0); opacity:1;}
+100%{transform:translateY(-100vh); opacity:0;}
+}
+
+/* Intro */
+#intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff4e8b;
+color:white;
+cursor:pointer;
+margin-top:20px;
+font-size:16px;
+box-shadow:0 0 15px #ff4e8b;
+}
+
+section{
+padding:80px 20px;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+backdrop-filter:blur(10px);
+}
+
+.countdown{
+font-size:2em;
+margin-top:20px;
+}
+
+img{
+width:250px;
+height:250px;
+object-fit:cover;
+border-radius:20px;
+margin-top:20px;
+box-shadow:0 0 20px pink;
+transition:0.5s;
+}
+
+img:hover{
+transform:scale(1.05);
+}
+
+.spark{
+position:fixed;
+width:8px;
+height:8px;
+border-radius:50%;
+animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+0%{transform:scale(0); opacity:1;}
+100%{transform:scale(5); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+<h1>For My Queen Riya ❤️</h1>
+<button onclick="start()">Enter My Heart 💖</button>
+</div>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div id="main" style="display:none;">
+
+<section>
+<h1>🎉 Countdown to Her Special Day</h1>
+<div class="countdown" id="countdown"></div>
+</section>
+
+<section>
+<h2>💌 My Love Letter</h2>
+<p id="letter" style="max-width:600px;"></p>
+</section>
+
+<section>
+<h2>📸 Our Beautiful Memories</h2>
+<img id="slide" src="photo1.jpg">
+</section>
+
+<section>
+<h2>💍 The Proposal</h2>
+<button onclick="final()">Click For Surprise</button>
+<p id="finalMsg" style="display:none;font-size:1.5em;margin-top:20px;">
+Riya ❤️ Will you stay with me forever? 💍  
+— Shaurya 💖
+</p>
+</section>
+
+</div>
+
+<script>
+
+/* Floating Hearts Generator */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=(15+Math.random()*25)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},500);
+
+function start(){
+document.getElementById("intro").style.display="none";
+document.getElementById("main").style.display="block";
+document.getElementById("music").play();
+type();
+}
+
+/* Countdown */
+const birthday=new Date("March 19, 2026 00:00:00").getTime();
+const timer=setInterval(()=>{
+const now=new Date().getTime();
+const distance=birthday-now;
+
+if(distance<0){
+clearInterval(timer);
+document.getElementById("countdown").innerHTML="🎂 It's Her Birthday ❤️";
+return;
+}
+
+const d=Math.floor(distance/(1000*60*60*24));
+const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((distance%(1000*60*60))/(1000*60));
+const s=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML=
+d+" Days "+h+" Hours "+m+" Minutes "+s+" Seconds";
+},1000);
+
+/* Typing Effect */
+const text="Riya, you are the most beautiful part of my life. Every smile of yours lights up my world. I promise to love, protect, and cherish you forever.";
+let index=0;
+
+function type(){
+if(index<text.length){
+document.getElementById("letter").innerHTML+=text.charAt(index);
+index++;
+setTimeout(type,40);
+}
+}
+
+/* Slideshow */
+let images=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let i=0;
+
+setInterval(()=>{
+i=(i+1)%images.length;
+document.getElementById("slide").src=images[i];
+},3000);
+
+/* Fireworks */
+function final(){
+document.getElementById("finalMsg").style.display="block";
+
+for(let j=0;j<80;j++){
+let spark=document.createElement("div");
+spark.className="spark";
+spark.style.background=`hsl(${Math.random()*360},100%,70%)`;
+spark.style.top=Math.random()*100+"%";
+spark.style.left=Math.random()*100+"%";
+document.body.appendChild(spark);
+setTimeout(()=>spark.remove(),1000);
+}
+}
+</script>
+
+</body>
+</html>
