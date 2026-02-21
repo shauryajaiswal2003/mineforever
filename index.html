@@ -3,31 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Riya ❤️ My Forever</title>
+<title>Riya ❤️ My Forever Story</title>
 
 <style>
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+background:radial-gradient(circle at top,#1a1a2e,#0f0c29);
 color:white;
 text-align:center;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
+/* Stars Background */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+animation:moveStars 100s linear infinite;
+z-index:-1;
+}
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
+}
+
 /* Floating Hearts */
 .heart{
 position:fixed;
-bottom:-10px;
-color:pink;
+bottom:-20px;
+color:#ff4e8b;
 font-size:20px;
 animation:float 6s linear infinite;
 }
-
 @keyframes float{
-0%{transform:translateY(0); opacity:1;}
-100%{transform:translateY(-100vh); opacity:0;}
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-100vh);opacity:0;}
 }
 
 /* Intro */
@@ -53,53 +66,73 @@ cursor:pointer;
 margin-top:20px;
 font-size:16px;
 box-shadow:0 0 15px #ff4e8b;
+transition:0.3s;
+}
+button:hover{
+transform:scale(1.1);
 }
 
+/* Sections */
 section{
-padding:80px 20px;
+padding:100px 20px;
 min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-backdrop-filter:blur(10px);
+opacity:0;
+transform:translateY(50px);
+transition:1s;
 }
-
-.countdown{
-font-size:2em;
-margin-top:20px;
+section.show{
+opacity:1;
+transform:translateY(0);
 }
 
 img{
-width:250px;
-height:250px;
+width:260px;
+height:260px;
 object-fit:cover;
 border-radius:20px;
+box-shadow:0 0 25px pink;
 margin-top:20px;
-box-shadow:0 0 20px pink;
-transition:0.5s;
 }
 
-img:hover{
-transform:scale(1.05);
+/* Timeline */
+.timeline{
+max-width:600px;
+text-align:left;
+margin:auto;
+line-height:1.8;
 }
 
+/* Firework */
 .spark{
 position:fixed;
-width:8px;
-height:8px;
+width:6px;
+height:6px;
 border-radius:50%;
 animation:explode 1s ease-out forwards;
 }
-
 @keyframes explode{
-0%{transform:scale(0); opacity:1;}
-100%{transform:scale(5); opacity:0;}
+0%{transform:scale(0);opacity:1;}
+100%{transform:scale(6);opacity:0;}
+}
+
+/* Proposal Popup */
+#proposalBox{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(255,255,255,0.1);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+display:none;
 }
 </style>
 </head>
 
 <body>
+
+<div class="stars"></div>
 
 <div id="intro">
 <h1>For My Queen Riya ❤️</h1>
@@ -113,44 +146,58 @@ animation:explode 1s ease-out forwards;
 <div id="main" style="display:none;">
 
 <section>
-<h1>🎉 Countdown to Her Special Day</h1>
-<div class="countdown" id="countdown"></div>
+<h1>🎉 Countdown to 19 March 2026</h1>
+<h2 id="countdown"></h2>
 </section>
 
 <section>
 <h2>💌 My Love Letter</h2>
-<p id="letter" style="max-width:600px;"></p>
+<p id="letter" style="max-width:600px;margin:auto;"></p>
 </section>
 
 <section>
-<h2>📸 Our Beautiful Memories</h2>
+<h2>📖 Our Love Story</h2>
+<div class="timeline">
+<p>✨ The first time I saw you, everything felt magical.</p>
+<p>💬 Our late night talks became my favorite part of the day.</p>
+<p>😊 Your smile became my peace.</p>
+<p>❤️ And slowly… you became my forever.</p>
+</div>
+</section>
+
+<section>
+<h2>📸 Our Memories</h2>
 <img id="slide" src="photo1.jpg">
 </section>
 
 <section>
-<h2>💍 The Proposal</h2>
-<button onclick="final()">Click For Surprise</button>
-<p id="finalMsg" style="display:none;font-size:1.5em;margin-top:20px;">
-Riya ❤️ Will you stay with me forever? 💍  
-— Shaurya 💖
-</p>
+<h2>💍 The Big Question</h2>
+<button onclick="final()">Click Here 💖</button>
 </section>
 
 </div>
 
+<div id="proposalBox">
+<h2>Riya ❤️</h2>
+<p style="font-size:18px;">
+Will you stay with me forever and make every moment magical? 💍
+</p>
+</div>
+
 <script>
 
-/* Floating Hearts Generator */
+/* Floating Hearts */
 setInterval(()=>{
 let heart=document.createElement("div");
 heart.className="heart";
 heart.innerHTML="❤️";
 heart.style.left=Math.random()*100+"%";
-heart.style.fontSize=(15+Math.random()*25)+"px";
+heart.style.fontSize=(15+Math.random()*30)+"px";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),6000);
-},500);
+},600);
 
+/* Start */
 function start(){
 document.getElementById("intro").style.display="none";
 document.getElementById("main").style.display="block";
@@ -160,56 +207,61 @@ type();
 
 /* Countdown */
 const birthday=new Date("March 19, 2026 00:00:00").getTime();
-const timer=setInterval(()=>{
-const now=new Date().getTime();
-const distance=birthday-now;
-
+setInterval(()=>{
+let now=new Date().getTime();
+let distance=birthday-now;
 if(distance<0){
-clearInterval(timer);
 document.getElementById("countdown").innerHTML="🎂 It's Her Birthday ❤️";
 return;
 }
-
-const d=Math.floor(distance/(1000*60*60*24));
-const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const m=Math.floor((distance%(1000*60*60))/(1000*60));
-const s=Math.floor((distance%(1000*60))/1000);
-
+let d=Math.floor(distance/(1000*60*60*24));
+let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((distance%(1000*60*60))/(1000*60));
+let s=Math.floor((distance%(1000*60))/1000);
 document.getElementById("countdown").innerHTML=
-d+" Days "+h+" Hours "+m+" Minutes "+s+" Seconds";
+d+"d "+h+"h "+m+"m "+s+"s";
 },1000);
 
-/* Typing Effect */
-const text="Riya, you are the most beautiful part of my life. Every smile of yours lights up my world. I promise to love, protect, and cherish you forever.";
-let index=0;
-
+/* Typing */
+const text="Riya, you are the most beautiful blessing in my life. Every heartbeat of mine whispers your name. I promise to love you beyond time, beyond distance, forever and always.";
+let i=0;
 function type(){
-if(index<text.length){
-document.getElementById("letter").innerHTML+=text.charAt(index);
-index++;
+if(i<text.length){
+document.getElementById("letter").innerHTML+=text.charAt(i);
+i++;
 setTimeout(type,40);
 }
 }
 
 /* Slideshow */
 let images=["photo1.jpg","photo2.jpg","photo3.jpg"];
-let i=0;
-
+let index=0;
 setInterval(()=>{
-i=(i+1)%images.length;
-document.getElementById("slide").src=images[i];
+index=(index+1)%images.length;
+document.getElementById("slide").src=images[index];
 },3000);
 
-/* Fireworks */
-function final(){
-document.getElementById("finalMsg").style.display="block";
+/* Scroll Animation */
+window.addEventListener("scroll",()=>{
+document.querySelectorAll("section").forEach(sec=>{
+let top=sec.getBoundingClientRect().top;
+if(top<window.innerHeight-100){
+sec.classList.add("show");
+}
+});
+});
 
-for(let j=0;j<80;j++){
+/* Fireworks + Proposal */
+function final(){
+document.getElementById("proposalBox").style.display="block";
+
+for(let j=0;j<100;j++){
 let spark=document.createElement("div");
 spark.className="spark";
 spark.style.background=`hsl(${Math.random()*360},100%,70%)`;
-spark.style.top=Math.random()*100+"%";
-spark.style.left=Math.random()*100+"%";
+spark.style.top="50%";
+spark.style.left="50%";
+spark.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`;
 document.body.appendChild(spark);
 setTimeout(()=>spark.remove(),1000);
 }
